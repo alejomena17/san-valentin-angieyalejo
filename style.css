@@ -1,0 +1,185 @@
+/* RESET BÁSICO */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  font-family: Arial, sans-serif;
+  text-align: center;
+  overflow: hidden;
+  color: white;
+  height: 100vh;
+}
+
+/* TITULO */
+h1 {
+  margin: 20px 0;
+  font-size: 26px;
+}
+
+.subtitle {
+  margin-bottom: 15px;
+}
+
+/* CONTENEDOR PRINCIPAL */
+.carousel-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columnas verticales */
+  height: 75vh;
+  width: 100%;
+  gap: 12px;
+  padding: 0 12px;
+  position: relative;
+}
+
+/* COLUMNAS SCROLL */
+.column {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+}
+
+/* Ocultar scrollbar */
+.column::-webkit-scrollbar {
+  display: none;
+}
+.column {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* SNAP POR TARJETA */
+.card {
+  width: 100%;
+  height: 300px;
+  perspective: 1000px;
+  flex-shrink: 0;
+  cursor: pointer;
+  scroll-snap-align: center;
+}
+
+/* CARRUSEL INTERNO */
+.carousel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 50px 0; /* espacio arriba y abajo para blur */
+}
+
+/* FLIP */
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 0.8s ease;
+  transform-style: preserve-3d;
+}
+
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+/* LADOS DE LA TARJETA */
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  overflow: hidden;
+  backface-visibility: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.card-front img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-back {
+  background: white;
+  color: #ff4e50;
+  transform: rotateY(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* EFECTO BLUR ARRIBA Y ABAJO */
+.column::before,
+.column::after {
+  content: "";
+  position: sticky;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.column::before {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(255,154,158,1), rgba(255,154,158,0));
+}
+
+.column::after {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(250,208,196,1), rgba(250,208,196,0));
+}
+
+/* CORAZONES FLOTANDO */
+.hearts {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.heart {
+  position: absolute;
+  bottom: -20px;
+  font-size: 20px;
+  animation: floatUp 6s linear infinite;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-800px) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+
+  .carousel-container {
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas en móvil */
+    height: 70vh;
+  }
+
+  .card {
+    height: 240px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+}
